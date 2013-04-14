@@ -16,8 +16,12 @@ protected:
 	T *ptr;
 
 	/* Utility functions */
-	void virtual increment() { }
-	void virtual decrement() { }
+	void virtual increment() {
+		assert(ptr);
+	}
+	void virtual decrement() {
+		assert(ptr);
+	}
 
 public:
 
