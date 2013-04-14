@@ -3,25 +3,29 @@ TAG=CS2HW8
 CXXFLAGS=-Wall -Wextra -pedantic -std=c++0x
 
 CXX=$(shell which g++)
-DIFF=$(shell which diff)
+DIFF=$(shell which diff) -s
 RM=$(shell which rm) -fv
-SAY=$(shell which echo) -e "$(TAG)"
+SAY=$(shell which echo) -e "[$(TAG)]"
 
-all: hw8
+all: hw8 iterator.o
 
 clean:
-	$(RM) *.o
-	$(RM) hw8
+	@$(SAY) "Cleaning object files and executables..."
+	@$(RM) *.o
+	@$(RM) hw8
 
-compare:
-	$(DIFF) main.cpp cutler.cpp
+changes:
+	@$(SAY) "Comparing current main.cpp with provided..."
+	@$(DIFF) main.cpp cutler.cpp || true
 
 test: all
 
-.PHONY: all clean compare test
+.PHONY: all changes clean test
 
-hw8: main.o
-	$(CXX) $(CXXFLAGS) $< -o $@
+hw8: main.o node.o
+	@$(SAY) "LD   $(TAG)"
+	@$(CXX) $(CXXFLAGS) main.o node.o -o $@
 
-%.o: %.cpp bidirectional_map.h
-	$(CXX) $(CXXFLAGS) -c $< -o $@
+%.o: %.cpp
+	@$(SAY) "CC   $<"
+	@$(CXX) $(CXXFLAGS) -c $< -o $@
