@@ -80,18 +80,30 @@ private:
 public:
 
 	/* Constructors/destructors */
-	explicit Node(const A &a = A()) :
-		data(new A(a)),
-		link(nullptr),
-		left(nullptr),
-		right(nullptr) { }
-	explicit Node(const Node<A, B> &n) = delete;
-	//explicit Node&&(const Node<A, B> &n) = delete;
-	~Node() { delete data; }
+	Node() = delete;
+	explicit Node(const A &a, Node<B, A> *node = nullptr) :
+		data(new A(a)), link(node),
+		left(nullptr), right(nullptr),
+		parent(nullptr) { }
+	explicit Node(const Node<A, B> &n) :
+		data(nullptr) { this->copy(n); }
+	explicit Node(Node<A, B> &&n) = delete;
+	virtual ~Node() {
+		this->destroy();
+	}
 
-	/* Derefs just get the data */
-	const A &operator*() const {
-		return *data;
+	/* This replaces all information */
+	Node<A, B> &operator=(const Node<A, B> &n) {
+		if (this != &n) {
+			this->copy(n);
+		}
+		return *this;
+	}
+
+	/* Derefs just fetch the data */
+	const A &&operator*() const {
+		assert(data);
+		return std::move(*data);
 	}
 
 };
