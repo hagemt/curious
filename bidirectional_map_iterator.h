@@ -30,22 +30,26 @@ public:
 	explicit iterator_base(const iterator_base<T> &it) = default;
 	explicit iterator_base(iterator_base<T> &&it) = delete;
 
-	wrapper<T> &&operator++() {
+	/* These call increment */
+	iterator_base<T> &&operator++() {
 		this->increment();
-		return wrapper<T>(*this);
+		iterator_base<T> copy = *this;
+		return std::move(copy);
 	}
-	wrapper<T> &&operator++(int) {
-		wrapper<T> copy = *this;
+	iterator_base<T> &&operator++(int) {
+		iterator_base<T> copy = *this;
 		this->increment();
 		return std::move(copy);
 	}
 
-	wrapper<T> &&operator--() {
+	/* These call decrement */
+	iterator_base<T> &&operator--() {
 		this->decrement();
-		return wrapper<T>(*this);
+		iterator_base<T> copy = *this;
+		return std::move(copy);
 	}
-	wrapper<T> &&operator--(int) {
-		wrapper<T> copy = *this;
+	iterator_base<T> &&operator--(int) {
+		iterator_base<T> copy = *this;
 		this->decrement();
 		return std::move(copy);
 	}
