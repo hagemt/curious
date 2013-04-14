@@ -1,74 +1,57 @@
-/* Simple class for data encapsulation */
-template <typename A, typename B>
-struct Node {
-	A *data;
-	Node<B, A> *link;
-	Node<A, B> *left, *right;
-	Node(const A &a = A()) :
-		data(new A(a)),
-		link(nullptr),
-		left(nullptr),
-		right(nullptr)
-		{ }
-	/* TODO delete copy and rvalue constructor */
-	//Node(const Node &) = delete;
-	//Node&&(const Node &) = delete;
-	~Node() { delete data; }
-};
+#include "bidirectional_map_node.h"
+#include "bidirectional_map_iterator.h"
 
-/* FIXME: not thread-safe */
-template <typename A, typename B> std::ostream &
-operator<<(std::ostream &ostr, const Node<A, B> &n) {
-	static size_t depth = 0;
-	if (n.right) {
-		++depth;
-		ostr << *(n.right);
-		--depth;
-	}
-	ostr << *(n.data) << "[" << *(n.link->data) << "]" << std::endl;
-	if (n.left) {
-		++depth;
-		ostr << *(n.left);
-		--depth;
-	}
-	return ostr;
-}
-
-/* TODO template over two types? */
-template <typename T>
-class tree_iterator {
-	/* Representation */
-	//Node *node;
-public:
-	/* TODO constructors via Node */
-	tree_iterator<T> operator++() {
-		return *this;
-	}
-	tree_iterator<T> operator--() {
-		return *this;
-	}
-};
-
-#include <iterator>
-#include <iostream>
-#include <map>
-#include <utility>
-
+/* TODO Add allocator(s)? */
 template <typename K, typename V>
 class bidirectional_map {
+
+	/* A specialized iterator for this map using Node */
+	template <typename A, typename B>
+	class bidirectional_map_iterator : public wrapper<Node<A, B>> {
+		/* Maintain a reference to the map */
+		const bidirectional_map<K, V> *parent;
+		/* This flips the relation */
+		bidirectional_map_iterator<B, A> &&operator~() {
+			return bidirectional_map_iterator<B, A>(node->link);
+		}
+		/* FIXME should these be in the super-class? */
+		void increment() { }
+		void decrement() { }
+	public:
+		explicit bidirectional_map_iterator(
+				bidirectional_map<K, V> *obj,
+				const Node<A, B> *n = nullptr) :
+			parent(obj), iterator(n) { }
+		/* Fetch the first entry from the node */
+		const A &operator*() {
+			return **node;
+		}
+	};
+
+	template <typename A, typename B> tree_iterator<A, B>&&
+	find(const A &element, const Node<A, B> *node) const {
+		if (!node || element == *(node->data)) {
+			return tree_iterator<A, B>(node);
+		}
+		return (element < *(node->data))
+			? find(element, node->left)
+			: find(element, node->right);
+	}
 
 public:
 
 	/* Types */
 	typedef size_t size_type;
 	typedef std::pair<K, V> entry_type;
-	typedef tree_iterator<entry_type> iterator;
-	typedef const iterator const_iterator;
+	typedef bidirectional_map_iterator iterator;
+	typedef iterator<K, V> key_iterator;
+	typedef iterator<V, K> value_iterator;
 
 private:
 
 	/* Representation */
-	Node<K, V> *key_root, *value_root;
+	Node<K, V> *key_root;
+	Node<V, K> *value_root;
 	size_type count;
 
 public:
