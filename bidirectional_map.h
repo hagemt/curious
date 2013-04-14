@@ -79,15 +79,28 @@ public:
 		}
 		ostr << "=================================================" << std::endl;
 	}
-	iterator&& find(const K &key) const;
+
+	/* Use dummy nodes */
+	key_iterator&& find(const K &key) const {
+		Node<K, V> dummy(key);
+		return key_iterator(find(&dummy, key_head));
+	}
+	value_iterator&& find(const V &value) const {
+		Node<V, K> dummy(value);
+		return value_iterator(find(&dummy, value_head));
+	}
 
 	/* Modifiers */
 	bool insert(const entry_type &entry);
 	bool erase(const iterator &it);
 
 	/* Operators */
-	const V &operator[](const K &key);
-	const K &operator[](const V &value);
+	const V &operator[](const K &key) {
+		return *find(key);
+	}
+	const K &operator[](const V &value) {
+		return *find(value);
+	}
 
 	/* Iteration  */
 	iterator key_begin() const;
