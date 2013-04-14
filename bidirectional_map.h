@@ -16,6 +16,24 @@ struct Node {
 	~Node() { delete data; }
 };
 
+/* FIXME: not thread-safe */
+template <typename A, typename B> std::ostream &
+operator<<(std::ostream &ostr, const Node<A, B> &n) {
+	static size_t depth = 0;
+	if (n.right) {
+		++depth;
+		ostr << *(n.right);
+		--depth;
+	}
+	ostr << *(n.data) << "[" << *(n.link->data) << "]" << std::endl;
+	if (n.left) {
+		++depth;
+		ostr << *(n.left);
+		--depth;
+	}
+	return ostr;
+}
+
 /* TODO template over two types? */
 template <typename T>
 class tree_iterator {
@@ -66,8 +84,18 @@ public:
 	size_type size() const {
 		return count;
 	}
+	void print(std::ostream &ostr) const {
+		ostr << "=================================================" << std::endl;
+		if (key_root) {
+			ostr << "KEYS:" << std::endl << *key_root;
+		}
+		ostr << "-------------------------------------------------" << std::endl;
+		if (value_root) {
+			ostr << "VALUES:" << std::endl << *value_root;
+		}
+		ostr << "=================================================" << std::endl;
+	}
 	iterator&& find(const K &key) const;
-	void print(std::ostream &ostr) const;
 
 	/* Modifiers */
 	bool insert(const entry_type &entry);
