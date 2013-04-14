@@ -1,3 +1,6 @@
+#ifndef BM_H
+#define BM_H
+
 #include "bidirectional_map_node.h"
 #include "bidirectional_map_iterator.h"
 
@@ -131,3 +134,5 @@ template <typename K, typename V> bool
 bidirectional_map<K, V>::erase(const bidirectional_map<K, V>::iterator &it) {
 	return false;
 }
+
+#endif // BM_H
