@@ -25,16 +25,10 @@ protected:
 
 public:
 
-	/* Constructors */
-	explicit wrapper(T *t = nullptr) :
-		ptr(t) { }
-	explicit wrapper(const wrapper<T> &it) :
-		ptr(it.ptr) { }
-	wrapper<T> &operator=(const wrapper<T> &it) {
-		if (this != &it) {
-			ptr = it.ptr;
-		}
-	}
+	/* Constructors -- very simple */
+	explicit iterator_base(T *t = nullptr) : ptr(t) { }
+	explicit iterator_base(const iterator_base<T> &it) = default;
+	explicit iterator_base(iterator_base<T> &&it) = delete;
 
 	wrapper<T> &&operator++() {
 		this->increment();
