@@ -103,10 +103,20 @@ public:
 	}
 
 	/* Iteration  */
-	iterator key_begin() const;
-	iterator key_end() const;
-	iterator value_begin() const;
-	iterator value_end() const;
+	key_iterator &&key_begin() const {
+		return key_iterator(this, key_root);
+	}
+	key_iterator &&key_end() const {
+		key_iterator it;
+		return std::move(--it);
+	}
+	value_iterator &&value_begin() const {
+		return value_iterator(value_root);
+	}
+	value_iterator &&value_end() const {
+		value_iterator it;
+		return std::move(--it);
+	}
 
 };
 
