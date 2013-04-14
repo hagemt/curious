@@ -11,9 +11,9 @@ template <typename A, typename B>
 struct Node {
 
 	/* Representation captures a piece of data */
-	A *data;
+	const A *data;
 	/* Each Node is reflexively linked */
-	Node<B, A> *link;
+	const Node<B, A> *link;
 	/* And knows its children and parent */
 	const Node<A, B> *left, *right, *parent;
 
@@ -62,7 +62,7 @@ private:
 	/* FIXME shouldn't do this? */
 	void destroy() {
 		if (data) { delete data; }
-		if (link) { link->link = nullptr; }
+		//if (link) { link->link = nullptr; }
 	}
 
 	/* Copying duplicates data, shallow-copies link, etc. */

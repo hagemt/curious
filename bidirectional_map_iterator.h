@@ -7,13 +7,14 @@
 using namespace std::rel_ops;
 /* FIXME is this ^ correct use of std::rel_ops? */
 
+/* A wrapper class to simplify implementation */
 template <class T>
 class iterator_base {
 
 protected:
 
 	/* Representation */
-	T *ptr;
+	const T *ptr;
 
 	/* Utility functions */
 	void virtual increment() {
@@ -26,7 +27,7 @@ protected:
 public:
 
 	/* Constructors -- very simple */
-	explicit iterator_base(T *t = nullptr) : ptr(t) { }
+	explicit iterator_base(const T *t = nullptr) : ptr(t) { }
 	explicit iterator_base(const iterator_base<T> &it) = default;
 	explicit iterator_base(iterator_base<T> &&it) = delete;
 
