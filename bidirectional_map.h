@@ -60,13 +60,14 @@ public:
 	bidirectional_map() :
 		key_root(nullptr),
 		value_root(nullptr),
-		count(0)
-		{ }
+		count(0) { }
 
-	/* Accessors */
+	/* Very simple! */
 	size_type size() const {
 		return count;
 	}
+
+	/* Printing is simple, too! */
 	void print(std::ostream &ostr) const {
 		ostr << "=================================================" << std::endl;
 		if (key_root) {
