@@ -1,8 +1,14 @@
+#ifndef BM_ITERATOR_H
+#define BM_ITERATOR_H
+
+#include <cassert>
 #include <utility>
+
 using namespace std::rel_ops;
+/* FIXME is this ^ correct use of std::rel_ops? */
 
 template <class T>
-class wrapper {
+class iterator_base {
 
 protected:
 
@@ -56,3 +62,24 @@ public:
 	}
 
 };
+
+/*
+
+#include <iterator>
+
+namespace std {
+
+template <class T, class A = std::allocator<T>>
+struct iterator_traits<iterator_base<T>> {
+	typedef A::difference_type difference_type;
+	typedef A::value_type value_type;
+	typedef A::reference reference;
+	typedef A::pointer pointer;
+	typedef std::bidirectional_iterator_tag iterator_category;
+};
+
+}
+
+*/
+
+#endif // BM_ITERATOR_H
