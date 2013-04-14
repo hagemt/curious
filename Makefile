@@ -1,13 +1,13 @@
 TAG=CS2HW8
 
-CXXFLAGS=-Wall -Wextra -pedantic -std=c++0x
+CXXFLAGS=-Wall -Wextra -ggdb -pedantic -std=c++0x
 
-CXX=$(shell which g++)
+CXX=$(shell which gcc)
 DIFF=$(shell which diff) -s
 RM=$(shell which rm) -fv
 SAY=$(shell which echo) -e "[$(TAG)]"
 
-all: hw8 iterator.o
+all: iterator.o map.o hw8
 
 clean:
 	@$(SAY) "Cleaning object files and executables..."
