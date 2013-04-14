@@ -1,51 +1,16 @@
-#include "bidirectional_map_node.h"
-#include "bidirectional_map_iterator.h"
-
-template <typename A, typename B>
-class iterator : public iterator_base<Node<A, B>> {
-protected:
-	void increment() {
-		const Node<A, B> *node = this->ptr;
-		if (node) {
-			this->ptr = node->next();
-		}
-	}
-	void decrement() {
-		const Node<A, B> *node = this->ptr;
-		if (node) {
-			this->ptr = node->prev();
-		}
-	}
-public:
-	/* Default, copy, and rvalue construction */
-	explicit iterator(Node<A, B> *n = nullptr) :
-		iterator_base<Node<A, B>>(n) { }
-	explicit iterator(const iterator<A, B> &it) = default;
-	explicit iterator(iterator &&it) = delete;
-
-	/* FIXME memory leak if allocation occurred */
-	virtual ~iterator() { }
-	/* Essential operators */
-	A &&operator*() {
-		assert(this->ptr);
-		return std::move(A(**(this->ptr)));
-	}
-	iterator<B, A> &&follow_link() const {
-		assert(this->ptr);
-		return std::move(iterator<B, A>(this->ptr->link));
-	}
-};
-
 #include <iostream>
 #include <utility>
+
+#include "bidirectional_map_node.h"
+#include "bidirectional_map_iterator.h"
 
 #define TYPE0 int
 #define TYPE1 double
 
 typedef Node<TYPE0, TYPE1> key_node;
 typedef Node<TYPE1, TYPE0> val_node;
-typedef iterator<TYPE0, TYPE1> key_itr;
-typedef iterator<TYPE1, TYPE0> val_itr;
+typedef bidirectional_map_iterator<TYPE0, TYPE1> key_itr;
+typedef bidirectional_map_iterator<TYPE1, TYPE0> val_itr;
 
 template <typename A, typename B> std::ostream &
 operator<<(std::ostream &ostr, const std::pair<A, B> &p) {
