@@ -69,9 +69,10 @@ public:
 
 };
 
-/*
+/******************************************************************************
 
 #include <iterator>
+// FIXME finish this...
 
 namespace std {
 
@@ -86,6 +87,65 @@ struct iterator_traits<iterator_base<T>> {
 
 }
 
-*/
+******************************************************************************/
+
+/* A specialized iterator for this map using Node */
+template <typename A, typename B>
+class bidirectional_map_iterator : public iterator_base<Node<A, B>> {
+
+	/* Types */
+	typedef Node<A, B> TreeNode;
+
+	/* Maintain a reference to the hierarchy */
+	const TreeNode *root;
+	/* FIXME ^ should be const? */
+
+	/* Incrementing end is a noop */
+	void increment() {
+		const TreeNode *n = this->ptr;
+		if (n) {
+			this->ptr = n->next();
+		}
+	}
+
+	/* Decrementing end requires special case */
+	void decrement() {
+		const TreeNode *n = this->ptr;
+		if (n) {
+			this->ptr = n->prev();
+		} else {
+			/* The largest element is right-most */
+			for (n = root; n->right; n = n->right);
+			this->ptr = n;
+		}
+	}
+
+public:
+
+	/* Construction is straightforward using base */
+	explicit bidirectional_map_iterator
+			(const TreeNode *tree, const TreeNode *n = nullptr) :
+		iterator_base<TreeNode>(n),
+		root(tree) { }
+	explicit bidirectional_map_iterator
+			(const bidirectional_map_iterator<A, B> &it) = default;
+	explicit bidirectional_map_iterator
+			(bidirectional_map_iterator &&it) = delete;
+
+	/* Fetch the first entry from the node */
+	const A &&operator*() {
+		assert(this->ptr);
+		return std::move(**(this->ptr));
+	}
+
+	typedef bidirectional_map_iterator<B, A> link_iterator;
+
+	/* This flips the relation */
+	link_iterator &&follow_link() const {
+		assert(this->ptr);
+		return std::move(link_iterator(this->ptr->link));
+	}
+
+};
 
 #endif // BM_ITERATOR_H

@@ -8,35 +8,14 @@
 template <typename K, typename V>
 class bidirectional_map {
 
-	/* A specialized iterator for this map using Node */
-	template <typename A, typename B>
-	class bidirectional_map_iterator : public wrapper<Node<A, B>> {
-		/* Maintain a reference to the map */
-		const bidirectional_map<K, V> *parent;
-		/* This flips the relation */
-		bidirectional_map_iterator<B, A> &&operator~() {
-			return bidirectional_map_iterator<B, A>(node->link);
-		}
-		/* FIXME should these be in the super-class? */
-		void increment() { }
-		void decrement() { }
-	public:
-		explicit bidirectional_map_iterator(
-				bidirectional_map<K, V> *obj,
-				const Node<A, B> *n = nullptr) :
-			parent(obj), iterator(n) { }
-		/* Fetch the first entry from the node */
-		const A &operator*() {
-			return **node;
-		}
-	};
-
-	template <typename A, typename B> tree_iterator<A, B>&&
+	/* Generic find function */
+	template <typename A, typename B> bidirectional_map_iterator<A, B> &&
 	find(const A &element, const Node<A, B> *node) const {
-		if (!node || element == *(node->data)) {
-			return tree_iterator<A, B>(node);
+		if (!node || element == *(node->ptr)) {
+			return bidirectional_map_iterator<A, B>(node);
 		}
-		return (element < *(node->data))
+		/* FIXME use iteration instead? */
+		return (element < *(node->ptr))
 			? find(element, node->left)
 			: find(element, node->right);
 	}
