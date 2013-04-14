@@ -1,3 +1,11 @@
+#ifndef BM_NODE_H
+#define BM_NODE_H
+
+#include <cassert>
+#include <utility>
+
+//#include "bidirectional_map_iterator.h"
+
 /* Simple class for data encapsulation */
 template <typename A, typename B>
 struct Node {
@@ -28,3 +36,5 @@ struct Node {
 
 template <typename A, typename B> std::ostream &
 operator<<(std::ostream &ostr, const Node<A, B> &n);
+
+#endif // BM_NODE_H
