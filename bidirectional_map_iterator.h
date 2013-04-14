@@ -54,13 +54,16 @@ public:
 		return std::move(copy);
 	}
 
-	bool operator==(const wrapper<T> &it) const {
-		return ptr == it.ptr;
+	/* FIXME is this ^ improper use of std::move? */
+
+	/* Check for the same contents */
+	bool operator==(const iterator_base<T> &it) const {
+		return *ptr == *(it.ptr);
 	}
 
-	bool operator<(const wrapper<T> &it) const {
-		wrapper<T> copy = *this;
-		return *copy < *it;
+	/* Compare contents */
+	bool operator<(const iterator_base<T> &it) const {
+		return *ptr < *(it.ptr);
 	}
 
 };
