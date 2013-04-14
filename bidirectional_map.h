@@ -120,8 +120,14 @@ public:
 
 };
 
-template <typename K, typename V> typename bidirectional_map<K, V>::iterator&&
-bidirectional_map<K, V>::find(const K &key) const {
-	iterator it;
-	return std::move(it);
+// TODO implement
+template <typename K, typename V> bool
+bidirectional_map<K, V>::insert(const bidirectional_map<K, V>::entry_type &entry) {
+	return false;
+}
+
+// TODO implement
+template <typename K, typename V> bool
+bidirectional_map<K, V>::erase(const bidirectional_map<K, V>::iterator &it) {
+	return false;
 }
