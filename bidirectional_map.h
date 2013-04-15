@@ -63,10 +63,10 @@ public:
 
 	/* Use dummy nodes */
 	key_iterator &&find(const K &key) const {
-		return std::move(key_iterator(find(key, key_head)));
+		return std::move(key_iterator(find(key, key_root)));
 	}
 	value_iterator &&find(const V &value) const {
-		return std::move(value_iterator(find(value, value_head)));
+		return std::move(value_iterator(find(value, value_root)));
 	}
 
 	/* Modifiers */
