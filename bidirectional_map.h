@@ -62,18 +62,16 @@ public:
 	}
 
 	/* Use dummy nodes */
-	key_iterator&& find(const K &key) const {
-		Node<K, V> dummy(key);
-		return key_iterator(find(&dummy, key_head));
+	key_iterator &&find(const K &key) const {
+		return std::move(key_iterator(find(key, key_head)));
 	}
-	value_iterator&& find(const V &value) const {
-		Node<V, K> dummy(value);
-		return value_iterator(find(&dummy, value_head));
+	value_iterator &&find(const V &value) const {
+		return std::move(value_iterator(find(value, value_head)));
 	}
 
 	/* Modifiers */
-	bool insert(const entry_type &entry);
-	bool erase(const iterator &it);
+	std::pair<bool, key_iterator> &&insert(const entry_type &entry);
+	bool erase(const entry_type &entry);
 
 	/* Operators */
 	const V &operator[](const K &key) {
