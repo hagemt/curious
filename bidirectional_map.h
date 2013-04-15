@@ -25,9 +25,8 @@ public:
 	/* Types */
 	typedef size_t size_type;
 	typedef std::pair<K, V> entry_type;
-	typedef bidirectional_map_iterator iterator;
-	typedef iterator<K, V> key_iterator;
-	typedef iterator<V, K> value_iterator;
+	typedef bidirectional_map_iterator<K, V> key_iterator;
+	typedef bidirectional_map_iterator<V, K> value_iterator;
 
 private:
 
