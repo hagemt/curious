@@ -8,18 +8,6 @@
 template <typename K, typename V>
 class bidirectional_map {
 
-	/* Generic find function */
-	template <typename A, typename B> bidirectional_map_iterator<A, B> &&
-	find(const A &element, const Node<A, B> *node) const {
-		if (!node || element == *(node->ptr)) {
-			return bidirectional_map_iterator<A, B>(node);
-		}
-		/* FIXME use iteration instead? */
-		return (element < *(node->ptr))
-			? find(element, node->left)
-			: find(element, node->right);
-	}
-
 public:
 
 	/* Types */
@@ -34,6 +22,18 @@ private:
 	Node<K, V> *key_root;
 	Node<V, K> *value_root;
 	size_type element_count;
+
+	/* Generic find function */
+	template <typename A, typename B> bidirectional_map_iterator<A, B> &&
+	find(const A &element, const Node<A, B> *node) const {
+		if (!node || element == *(node->ptr)) {
+			return bidirectional_map_iterator<A, B>(node);
+		}
+		/* FIXME use iteration instead? */
+		return (element < *(node->ptr))
+			? find(element, node->left)
+			: find(element, node->right);
+	}
 
 public:
 
