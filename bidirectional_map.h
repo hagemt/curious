@@ -81,20 +81,18 @@ public:
 		return *find(value);
 	}
 
-	/* Iteration  */
+	/* Iteration */
 	key_iterator &&key_begin() const {
-		return key_iterator(this, key_root);
+		return std::move(key_iterator(key_root, key_root));
 	}
 	key_iterator &&key_end() const {
-		key_iterator it;
-		return std::move(--it);
+		return std::move(--key_iterator(key_root));
 	}
 	value_iterator &&value_begin() const {
-		return value_iterator(value_root);
+		return std::move(value_iterator(value_root, value_root));
 	}
 	value_iterator &&value_end() const {
-		value_iterator it;
-		return std::move(--it);
+		return std::move(--value_iterator(value_root));
 	}
 
 };
