@@ -112,10 +112,16 @@ bidirectional_map<K, V>::insert(const bidirectional_map<K, V>::entry_type &entry
 	return std::move(p);
 }
 
-// TODO implement
 template <typename K, typename V> bool
-bidirectional_map<K, V>::erase(const bidirectional_map<K, V>::iterator &it) {
-	return false;
+bidirectional_map<K, V>::erase(const bidirectional_map<K, V>::entry_type &entry) {
+	key_iterator key_it = find(entry.first);
+	value_iterator value_it = find(entry.second);
+	if (key_it == key_end() || value_it == value_end()) {
+		return false;
+	}
+	// TODO implement fully
+	--element_count;
+	return true;
 }
 
 #endif // BM_H
