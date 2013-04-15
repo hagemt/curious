@@ -2,7 +2,7 @@ TAG=CS2HW8
 
 CXXFLAGS=-Wall -Wextra -ggdb -pedantic -std=c++0x
 
-CXX=$(shell which gcc)
+CXX=$(shell which g++)
 DIFF=$(shell which diff) -s
 RM=$(shell which rm) -fv
 SAY=$(shell which echo) -e "[$(TAG)]"
