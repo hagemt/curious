@@ -97,10 +97,19 @@ public:
 
 };
 
-// TODO implement
-template <typename K, typename V> bool
+template <typename K, typename V> std::pair<bool, key_iterator> &&
 bidirectional_map<K, V>::insert(const bidirectional_map<K, V>::entry_type &entry) {
-	return false;
+	key_iterator key_it = find(entry.first);
+	value_iterator value_it = find(entry.second);
+	std::pair<bool, key_iterator> p = std::make_pair(false, key_it);
+	/* Only permit non-duplicates */
+	if (key_it == key_end() && value_it == value_end()) {
+		// TODO implement fully
+		p.second = key_it;
+		p.first = true;
+		++element_count;
+	}
+	return std::move(p);
 }
 
 // TODO implement
