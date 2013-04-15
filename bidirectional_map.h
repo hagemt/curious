@@ -33,7 +33,7 @@ private:
 	/* Representation */
 	Node<K, V> *key_root;
 	Node<V, K> *value_root;
-	size_type count;
+	size_type element_count;
 
 public:
 
@@ -41,14 +41,14 @@ public:
 	bidirectional_map() :
 		key_root(nullptr),
 		value_root(nullptr),
-		count(0) { }
+		element_count(0) { }
 
 	/* Very simple! */
 	size_type size() const {
-		return count;
+		return element_count;
 	}
 
-	/* Printing is simple, too! */
+	/* Printing simply dumps the roots FIXME doesn't need size? */
 	void print(std::ostream &ostr) const {
 		ostr << "=================================================" << std::endl;
 		if (key_root) {
