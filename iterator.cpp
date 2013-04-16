@@ -1,21 +1,22 @@
-#include <iostream>
-#include <utility>
-
-#include "bidirectional_map_node.h"
-#include "bidirectional_map_iterator.h"
-
 #define TYPE0 int
 #define TYPE1 double
 
-typedef Node<TYPE0, TYPE1> key_node;
-typedef Node<TYPE1, TYPE0> val_node;
-typedef bidirectional_map_iterator<TYPE0, TYPE1> key_itr;
-typedef bidirectional_map_iterator<TYPE1, TYPE0> val_itr;
+#include <iostream>
+#include <utility>
 
 template <typename A, typename B> std::ostream &
 operator<<(std::ostream &ostr, const std::pair<A, B> &p) {
 	return ostr << "pair = (" << p.first << "," << p.second << ")";
 }
+
+#include "bidirectional_map_node.h"
+#include "bidirectional_map_iterator.h"
+using namespace teh::ds;
+
+typedef Node<TYPE0, TYPE1> key_node;
+typedef Node<TYPE1, TYPE0> val_node;
+typedef bidirectional_map_iterator<TYPE0, TYPE1> key_itr;
+typedef bidirectional_map_iterator<TYPE1, TYPE0> val_itr;
 
 int
 main(void)
@@ -30,9 +31,10 @@ main(void)
 	key_itr itm(&m);
 	val_itr itn(&n);
 
-	/* Print results */
 	using std::cout;
 	using std::endl;
+
+	/* Print results */
 	cout << std::make_pair(a, b) << endl;
 	cout << "1st node contains: " << *m << endl;
 	cout << "2nd node contains: " << *n << endl;
