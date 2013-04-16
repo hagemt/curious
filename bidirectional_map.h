@@ -17,6 +17,8 @@ public:
 	typedef std::pair<K, V> entry_type;
 	typedef bidirectional_map_iterator<K, V> key_iterator;
 	typedef bidirectional_map_iterator<V, K> value_iterator;
+	typedef std::pair<bool, key_iterator> key_iterator_pair;
+	typedef std::pair<bool, value_iterator> value_iterator_pair;
 
 private:
 
@@ -72,8 +74,9 @@ public:
 	}
 
 	/* Modifiers */
-	std::pair<bool, key_iterator> &&insert(const entry_type &entry);
-	bool erase(const entry_type &entry);
+	key_iterator_pair &&insert(const entry_type &entry);
+	// FIXME add: value_iterator_pair &&insert(const entry_type &entry);
+	size_type erase(const entry_type &entry);
 
 	/* Operators */
 	const V &operator[](const K &key) {
@@ -99,11 +102,23 @@ public:
 
 };
 
-template <typename K, typename V> std::pair<bool, key_iterator> &&
-bidirectional_map<K, V>::insert(const bidirectional_map<K, V>::entry_type &entry) {
+/* Useful reference definitions and implementation */
+typedef bidirectional_map<K, V> bmap<K, V>;
+typedef bmap<K, V>::key_iterator_pair key_iterator_pair<K, V>;
+typedef bmap<K, V>::value_iterator_pair value_iterator_pair<K, V>;
+
+/**
+ * \brief Try to add something to this bidirectional-map
+ *
+ * \argument entry use std::make_pair(key, value) to prepare
+ * \returns a pair, whether it was added and an iterator
+ */
+template <typename K, typename V> iterator_pair<K, V> &&
+bmap<K, V>::insert(const bmap<K, V>::entry_type &entry)
+{
 	key_iterator key_it = find(entry.first);
 	value_iterator value_it = find(entry.second);
-	std::pair<bool, key_iterator> p = std::make_pair(false, key_it);
+	key_iterator_pair p = std::make_pair(false, key_it);
 	/* Only permit non-duplicates */
 	if (key_it == key_end() && value_it == value_end()) {
 		// TODO implement fully
@@ -114,16 +129,23 @@ bidirectional_map<K, V>::insert(const bidirectional_map<K, V>::entry_type &entry
 	return std::move(p);
 }
 
-template <typename K, typename V> bool
-bidirectional_map<K, V>::erase(const bidirectional_map<K, V>::entry_type &entry) {
+/**
+ * \brief Try to remove something from this bidirectional-map
+ *
+ * \argument entry use std::make_pair(key, value) to prepare
+ * \returns a boolean, whether or not an entry was removed
+ */
+template <typename K, typename V> typename bmap<K, V>::size_type
+bmap<K, V>::erase(const bmap<K, V>::entry_type &entry)
+{
 	key_iterator key_it = find(entry.first);
 	value_iterator value_it = find(entry.second);
 	if (key_it == key_end() || value_it == value_end()) {
-		return false;
+		return 0;
 	}
 	// TODO implement fully
 	--element_count;
-	return true;
+	return 1;
 }
 
 } // namespace teh::ds
