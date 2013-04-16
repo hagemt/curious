@@ -25,8 +25,8 @@ public:
 private:
 
 	/* Representation */
-	Node<K, V> *key_root;
-	Node<V, K> *value_root;
+	const Node<K, V> *key_root;
+	const Node<V, K> *value_root;
 	size_type element_count;
 
 	/* Generic find function, for utility */
