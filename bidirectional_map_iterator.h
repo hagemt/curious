@@ -4,7 +4,9 @@
 #include <cassert>
 #include <utility>
 
-namespace teh::ds {
+namespace teh {
+
+namespace ds {
 
 using namespace std::rel_ops;
 /* FIXME is this ^ correct use of std::rel_ops? */
@@ -82,7 +84,9 @@ public:
 
 }; // iterator_base<T>
 
-} // namespace teh::ds
+} // namespace ds
+
+} // namespace teh
 
 /******************************************************************************
 
@@ -104,7 +108,9 @@ struct iterator_traits<iterator_base<T>> {
 
 ******************************************************************************/
 
-namespace teh::ds {
+namespace teh {
+
+namespace ds {
 
 /* A specialized iterator for this map using Node */
 template <typename K, typename V>
@@ -183,6 +189,8 @@ public:
 
 }; // bidirectional_map_iterator<K, V>
 
-} // namespace teh::ds
+} // namespace ds
+
+} // namespace teh
 
 #endif // BM_ITERATOR_H

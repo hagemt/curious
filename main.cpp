@@ -15,6 +15,7 @@
 #include <utility>
 
 #include "bidirectional_map.h"
+using namespace teh::ds;
 
 
 // prototypes of helper functions

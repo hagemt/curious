@@ -5,9 +5,11 @@
 #include <iostream>
 #include <utility>
 
-namespace teh::ds {
+namespace teh {
 
-using namespace std::rel_ops;
+namespace ds {
+
+//using namespace std::rel_ops;
 /* FIXME is this ^ correct use of std::rel_ops? */
 
 /* Simple class for data encapsulation */
@@ -127,9 +129,11 @@ public:
 
 };
 
-template <typename A, typename B> std::ostream &
-operator<<(std::ostream &ostr, const Node<A, B> &n);
+} // namespace ds
 
-} // namespace teh::ds
+} // namespace teh
+
+template <typename A, typename B> std::ostream &
+operator<<(std::ostream &ostr, const teh::ds::Node<A, B> &n);
 
 #endif // BM_NODE_H

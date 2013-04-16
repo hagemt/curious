@@ -1,10 +1,8 @@
 #include "bidirectional_map_node.h"
 
-namespace teh::ds {
-
 /* FIXME: not safe under concurrency, use thread-local vs. static variable? */
 template <typename A, typename B> std::ostream &
-operator<<(std::ostream &ostr, const Node<A, B> &n) {
+operator<<(std::ostream &ostr, const teh::ds::Node<A, B> &n) {
 	static size_t depth = 0;
 	if (n.right) {
 		++depth;
@@ -22,5 +20,3 @@ operator<<(std::ostream &ostr, const Node<A, B> &n) {
 	}
 	return ostr;
 }
-
-} // namespace teh::ds
