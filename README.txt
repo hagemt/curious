@@ -1,71 +1,38 @@
 HOMEWORK 8: BIDIRECTIONAL MAPS
 
+NAME: Tor E Hagemann <hagemt@rpi.edu>
 
-NAME:  < insert name >
+COLLABORATORS AND OTHER RESOURCES: Lots of C++11 and STL reference.
 
+ESTIMATE OF # OF HOURS SPENT ON THIS ASSIGNMENT: 24
 
-COLLABORATORS AND OTHER RESOURCES:
-List the names of everyone you talked to about this assignment
-(classmates, TAs, ALAC tutors, upperclassmen, students/instructor via
-LMS, etc.), and all of the resources (books, online reference
-material, etc.) you consulted in completing this assignment.
-
-< insert collaborators / resources >
-
-Remember: Your implementation for this assignment must be done on your
-own, as described in "Academic Integrity for Homework" handout.
-
-
-
-ESTIMATE OF # OF HOURS SPENT ON THIS ASSIGNMENT:  < insert # hours >
-
-
-
-ORDER NOTATION ANALYSIS: 
-Give the big O notation of each of the library operations and justify
-your answer (please be concise!)
+ORDER NOTATION ANALYSIS:
 
 n = the number of elements
+k = maximum number of links stored in a single node
+    (for extra credit, non- one-to-one associations)
 
-k = maximum number of links stored in a sinle node 
-    (for extra credit non one-to-one associations)
+// TODO update when complete...
+size:        O(1)
+insert:      O(log(n))
+erase:       O(log(n))
+find:        O(log(n))
+operator[]:  O(log(n))
 
+// FIXME can *_end be constant time?
+key_begin:   O(1)
+key_end:     O(log(n))
+value_begin: O(1)
+value_end:   O(log(n))
 
-size:
+follow_link: O(1)
 
-insert:
+key iterator++/--:   O(log(n))
+value iterator++/--: O(log(n))
 
-erase:
+default constructor: O(1)
+copy constructor:    O(n)
+destructor:          O(n)
+assignment operator: O(n)
 
-find:
-
-operator[]:
-
-key_begin:
-
-key_end:
-
-value_begin:
-
-value_end:
-
-key iterator++/--:
-
-value iterator++/--:
-
-follow_link:
-
-default constructor:
-
-copy constructor:
-
-destructor:
-
-assignment operator:
-
-
-
-MISC. COMMENTS TO GRADER:  
-(optional, please be concise!)
-
-
+MISC. COMMENTS TO GRADER: N/A
