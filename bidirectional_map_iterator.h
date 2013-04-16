@@ -28,10 +28,11 @@ protected:
 
 public:
 
-	/* Constructors -- very simple */
+	/* Constructors/destructor -- very simple */
 	explicit iterator_base(const T *t = nullptr) : ptr(t) { }
-	explicit iterator_base(const iterator_base<T> &it) = default;
-	explicit iterator_base(iterator_base<T> &&it) = delete;
+	explicit iterator_base(const iterator_base<T> &it) : ptr(it.ptr) { }
+	explicit iterator_base(iterator_base<T> &&it) : ptr(it.ptr) { }
+	virtual ~iterator_base() { }
 
 	/* These call increment */
 	iterator_base<T> &&operator++() {
@@ -129,14 +130,16 @@ class bidirectional_map_iterator : public iterator_base<Node<K, V>> {
 public:
 
 	/* Construction is straightforward using base */
-	explicit bidirectional_map_iterator
-			(const TreeNode *tree, const TreeNode *n = nullptr) :
+	explicit bidirectional_map_iterator(const TreeNode *tree, const TreeNode *n = nullptr) :
 		iterator_base<TreeNode>(n),
 		root(tree) { }
-	explicit bidirectional_map_iterator
-			(const bidirectional_map_iterator<A, B> &it) = default;
-	explicit bidirectional_map_iterator
-			(bidirectional_map_iterator &&it) = delete;
+	explicit bidirectional_map_iterator(const bidirectional_map_iterator<K, V> &it) :
+		iterator_base<TreeNode>(it.ptr),
+		root(it.root) { }
+	explicit bidirectional_map_iterator(bidirectional_map_iterator &&it) :
+		iterator_base<TreeNode>(it.ptr),
+		root(it.root) { }
+	/* TODO can we shorten this name? */
 
 	/* Fetch the first entry from the node */
 	const A &&operator*() {

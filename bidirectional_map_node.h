@@ -83,18 +83,24 @@ public:
 
 	/* Constructors/destructors */
 	Node() = delete;
+	/* FIXME ^ should default first argument below instead? */
 	explicit Node(const A &a, Node<B, A> *node = nullptr) :
 		data(new A(a)), link(node),
 		left(nullptr), right(nullptr),
 		parent(nullptr) { }
+	/* Copy replicates data */
 	explicit Node(const Node<A, B> &n) :
 		data(nullptr) { this->copy(n); }
-	explicit Node(Node<A, B> &&n) = delete;
+	/* Move takes data (just copies everything) */
+	explicit Node(Node<A, B> &&n) :
+		data(n.data), link(n.node),
+		left(n.left), right(n.right),
+		parent(n.parent) { }
 	virtual ~Node() {
 		this->destroy();
 	}
 
-	/* This replaces all information */
+	/* This replaces all information, replicating data */
 	Node<A, B> &operator=(const Node<A, B> &n) {
 		if (this != &n) {
 			this->copy(n);
