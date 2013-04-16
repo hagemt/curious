@@ -12,9 +12,8 @@
 *.la
 *.a
 
-# Vim temporary files
-*.swp
-
 # Misc project files
+.*
+!.gitcommit
 build*/*
 hw8
