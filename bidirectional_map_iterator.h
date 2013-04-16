@@ -159,27 +159,27 @@ public:
 		it.ptr = nullptr;
 		it.root = nullptr;
 	}
+
 	/* TODO can we shorten this name? */
 	virtual ~bidirectional_map_iterator() {
 		root = nullptr;
 	}
-	/* FIXME does the super-class destructor get called? */
 
+	/* FIXME does the super-class destructor get called? */
 	bidirectional_map_iterator<K, V> &operator=(const bidirectional_map_iterator<K, V> &it) {
 		if (this != &it) {
-			ptr = it.ptr;
 			root = it.root;
 		}
 		return *this;
 	}
 
 	/* Fetch the first entry from the node */
-	const A &&operator*() {
+	const K &&operator*() {
 		assert(this->ptr);
 		return std::move(**(this->ptr));
 	}
 
-	typedef bidirectional_map_iterator<B, A> link_iterator;
+	typedef bidirectional_map_iterator<V, K> link_iterator;
 
 	/* This flips the relation */
 	link_iterator &&follow_link() const {
