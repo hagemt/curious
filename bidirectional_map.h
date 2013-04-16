@@ -39,13 +39,64 @@ private:
 			: find(element, node->right);
 	}
 
+	template <typename A, typename B> void
+	destroy(Node<A, B> *&node) {
+		if (node == nullptr) { return; }
+		Node<A, B> *left = node->left;
+		Node<A, B> *right = node->right;
+		delete node;
+		node = nullptr;
+		destroy(left);
+		destroy(right);
+	}
+
+	template <typename A, typename B> Node<A, B> *
+	copy(Node<A, B> *node) {
+		if (node == nullptr) { return nullptr; }
+		Node<A, B> *new_parent = new Node<A, B>(*n);
+		new_parent->left = deep_copy(n->left);
+		new_parent->left = deep_copy(n->right);
+	}
+
 public:
 
-	/* Constructors */
 	bidirectional_map() :
 		key_root(nullptr),
 		value_root(nullptr),
 		element_count(0) { }
+
+	explicit bidirectional_map(const bidirectional_map<K, V> &m) :
+		bidirectional_map() { *this = m; }
+
+	explicit bidirectional_map(bidirectional_map<K, V> &&m) :
+		key_root(m.key_root),
+		value_root(m.value_root),
+		element_count(m.element_count) {
+			/* FIXME we need this, right? */
+			m.key_root = nullptr;
+			m.value_root = nullptr;
+			m.element_count = 0;
+		}
+
+	virtual ~bidirectional_map() {
+		this->clear();
+	}
+
+	bidirectional_map<K, V> &operator=(const bidirectional_map<K, V> &m) {
+		if (this != &m) {
+			this->clear();
+			// TODO for (auto &p : m) { this->insert(p); }
+		}
+		return *this;
+	}
+
+	void clear() {
+		this->destroy(key_root);
+		this->destroy(value_root);
+		assert(key_root == nullptr);
+		assert(value_root == nullptr);
+		element_count = 0;
+	}
 
 	/* Very simple! */
 	size_type size() const {
