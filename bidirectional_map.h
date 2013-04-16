@@ -164,8 +164,8 @@ template <typename K, typename V> using bmap = bidirectional_map<K, V>;
  * \argument entry use std::make_pair(key, value) to prepare
  * \returns a pair, whether it was added and an iterator
  */
-template <typename K, typename V> bmap<K, V>::key_iterator_pair &&
-bmap<K, V>::insert(const bmap<K, V>::entry_type &entry)
+template <typename K, typename V> typename bmap<K, V>::key_iterator_pair &&
+bmap<K, V>::insert(const typename bmap<K, V>::entry_type &entry)
 {
 	typename bmap<K, V>::key_iterator key_it = find(entry.first);
 	typename bmap<K, V>::value_iterator value_it = find(entry.second);
@@ -188,7 +188,7 @@ bmap<K, V>::insert(const bmap<K, V>::entry_type &entry)
  * \returns a boolean, whether or not an entry was removed
  */
 template <typename K, typename V> typename bmap<K, V>::size_type
-bmap<K, V>::erase(const bmap<K, V>::entry_type &entry)
+bmap<K, V>::erase(const typename bmap<K, V>::entry_type &entry)
 {
 	typename bmap<K, V>::key_iterator key_it = find(entry.first);
 	typename bmap<K, V>::value_iterator value_it = find(entry.second);
