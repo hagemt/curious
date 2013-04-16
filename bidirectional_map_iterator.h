@@ -4,6 +4,8 @@
 #include <cassert>
 #include <utility>
 
+namespace teh::ds {
+
 using namespace std::rel_ops;
 /* FIXME is this ^ correct use of std::rel_ops? */
 
@@ -67,7 +69,9 @@ public:
 		return *ptr < *(it.ptr);
 	}
 
-};
+}; // iterator_base<T>
+
+} // namespace teh::ds
 
 /******************************************************************************
 
@@ -85,16 +89,18 @@ struct iterator_traits<iterator_base<T>> {
 	typedef std::bidirectional_iterator_tag iterator_category;
 };
 
-}
+} // namespace std
 
 ******************************************************************************/
 
+namespace teh::ds {
+
 /* A specialized iterator for this map using Node */
-template <typename A, typename B>
-class bidirectional_map_iterator : public iterator_base<Node<A, B>> {
+template <typename K, typename V>
+class bidirectional_map_iterator : public iterator_base<Node<K, V>> {
 
 	/* Types */
-	typedef Node<A, B> TreeNode;
+	typedef Node<K, V> TreeNode;
 
 	/* Maintain a reference to the hierarchy */
 	const TreeNode *root;
@@ -146,6 +152,8 @@ public:
 		return std::move(link_iterator(this->ptr->link));
 	}
 
-};
+}; // bidirectional_map_iterator<K, V>
+
+} // namespace teh::ds
 
 #endif // BM_ITERATOR_H

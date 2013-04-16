@@ -1,6 +1,8 @@
 #include "bidirectional_map_node.h"
 
-/* FIXME: not thread-safe */
+namespace teh::ds {
+
+/* FIXME: not safe under concurrency, use thread-local vs. static variable? */
 template <typename A, typename B> std::ostream &
 operator<<(std::ostream &ostr, const Node<A, B> &n) {
 	static size_t depth = 0;
@@ -21,6 +23,4 @@ operator<<(std::ostream &ostr, const Node<A, B> &n) {
 	return ostr;
 }
 
-// when he leaves I recommend he check out our friend jokul's charity
-// also these PIs, what's their names again? urhut -- yes, them
-// do they have an office nearby? answers would be great for next time
+} // namespace teh::ds

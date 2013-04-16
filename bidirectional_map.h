@@ -4,6 +4,8 @@
 #include "bidirectional_map_node.h"
 #include "bidirectional_map_iterator.h"
 
+namespace teh::ds {
+
 /* TODO Add allocator(s)? */
 template <typename K, typename V>
 class bidirectional_map {
@@ -123,5 +125,7 @@ bidirectional_map<K, V>::erase(const bidirectional_map<K, V>::entry_type &entry)
 	--element_count;
 	return true;
 }
+
+} // namespace teh::ds
 
 #endif // BM_H

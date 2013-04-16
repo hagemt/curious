@@ -2,9 +2,13 @@
 #define BM_NODE_H
 
 #include <cassert>
+#include <iostream>
 #include <utility>
 
-//#include "bidirectional_map_iterator.h"
+namespace teh::ds {
+
+using namespace std::rel_ops;
+/* FIXME is this ^ correct use of std::rel_ops? */
 
 /* Simple class for data encapsulation */
 template <typename A, typename B>
@@ -16,8 +20,6 @@ struct Node {
 	const Node<B, A> *link;
 	/* And knows its children and parent */
 	const Node<A, B> *left, *right, *parent;
-
-//protected: // Utilities
 
 	Node<A, B> *prev() const {
 		const Node<A, B> *n = this;
@@ -112,5 +114,7 @@ public:
 
 template <typename A, typename B> std::ostream &
 operator<<(std::ostream &ostr, const Node<A, B> &n);
+
+} // namespace teh::ds
 
 #endif // BM_NODE_H
