@@ -42,10 +42,10 @@ private:
 	}
 
 	template <typename A, typename B> void
-	destroy(Node<A, B> *&node) {
+	destroy(const Node<A, B> *&node) {
 		if (node == nullptr) { return; }
-		Node<A, B> *left = node->left;
-		Node<A, B> *right = node->right;
+		const Node<A, B> *left = node->left;
+		const Node<A, B> *right = node->right;
 		delete node;
 		node = nullptr;
 		destroy(left);
@@ -53,11 +53,12 @@ private:
 	}
 
 	template <typename A, typename B> Node<A, B> *
-	copy(Node<A, B> *node) {
+	copy(const Node<A, B> *node) {
 		if (node == nullptr) { return nullptr; }
 		Node<A, B> *new_parent = new Node<A, B>(*node);
 		new_parent->left = copy(node->left);
 		new_parent->left = copy(node->right);
+		return new_parent;
 	}
 
 public:
