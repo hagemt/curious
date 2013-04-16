@@ -31,8 +31,18 @@ public:
 	/* Constructors/destructor -- very simple */
 	explicit iterator_base(const T *t = nullptr) : ptr(t) { }
 	explicit iterator_base(const iterator_base<T> &it) : ptr(it.ptr) { }
-	explicit iterator_base(iterator_base<T> &&it) : ptr(it.ptr) { }
-	virtual ~iterator_base() { }
+	explicit iterator_base(iterator_base<T> &&it) :
+		ptr(it.ptr) {
+		/* FIXME this is necessary, right? */
+		it.ptr = nullptr;
+	}
+	virtual ~iterator_base() {
+		ptr = nullptr;
+	}
+
+	iterator_base<T> &operator=(const iterator_base<T> &it) {
+		ptr = it.ptr;
+	}
 
 	/* These call increment */
 	iterator_base<T> &&operator++() {
@@ -138,8 +148,24 @@ public:
 		root(it.root) { }
 	explicit bidirectional_map_iterator(bidirectional_map_iterator &&it) :
 		iterator_base<TreeNode>(it.ptr),
-		root(it.root) { }
+		root(it.root) {
+		/* FIXME this is necessary, right? */
+		it.ptr = nullptr;
+		it.root = nullptr;
+	}
 	/* TODO can we shorten this name? */
+	virtual ~bidirectional_map_iterator() {
+		root = nullptr;
+	}
+	/* FIXME does the super-class destructor get called? */
+
+	bidirectional_map_iterator<K, V> &operator=(const bidirectional_map_iterator<K, V> &it) {
+		if (this != &it) {
+			ptr = it.ptr;
+			root = it.root;
+		}
+		return *this;
+	}
 
 	/* Fetch the first entry from the node */
 	const A &&operator*() {
