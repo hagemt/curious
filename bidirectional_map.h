@@ -156,9 +156,7 @@ public:
 };
 
 /* Useful reference definitions and implementation */
-typedef bidirectional_map<K, V> bmap<K, V>;
-typedef bmap<K, V>::key_iterator_pair key_iterator_pair<K, V>;
-typedef bmap<K, V>::value_iterator_pair value_iterator_pair<K, V>;
+template <typename K, typename V> using bmap = bidirectional_map<K, V>;
 
 /**
  * \brief Try to add something to this bidirectional-map
@@ -166,12 +164,13 @@ typedef bmap<K, V>::value_iterator_pair value_iterator_pair<K, V>;
  * \argument entry use std::make_pair(key, value) to prepare
  * \returns a pair, whether it was added and an iterator
  */
-template <typename K, typename V> key_iterator_pair<K, V> &&
+template <typename K, typename V> bmap<K, V>::key_iterator_pair &&
 bmap<K, V>::insert(const bmap<K, V>::entry_type &entry)
 {
-	key_iterator key_it = find(entry.first);
-	value_iterator value_it = find(entry.second);
-	key_iterator_pair p = std::make_pair(false, key_it);
+	typename bmap<K, V>::key_iterator key_it = find(entry.first);
+	typename bmap<K, V>::value_iterator value_it = find(entry.second);
+	typename bmap<K, V>::key_iterator_pair p = std::make_pair(false, key_it);
+	typename bmap<K, V>::value_iterator_pair p = std::make_pair(false, value_it);
 	/* Only permit non-duplicates */
 	if (key_it == key_end() && value_it == value_end()) {
 		// TODO implement fully
@@ -191,8 +190,8 @@ bmap<K, V>::insert(const bmap<K, V>::entry_type &entry)
 template <typename K, typename V> typename bmap<K, V>::size_type
 bmap<K, V>::erase(const bmap<K, V>::entry_type &entry)
 {
-	key_iterator key_it = find(entry.first);
-	value_iterator value_it = find(entry.second);
+	typename bmap<K, V>::key_iterator key_it = find(entry.first);
+	typename bmap<K, V>::value_iterator value_it = find(entry.second);
 	if (key_it == key_end() || value_it == value_end()) {
 		return 0;
 	}
