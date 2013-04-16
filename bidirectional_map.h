@@ -156,8 +156,13 @@ public:
 
 };
 
+} // namespace ds
+
+} // namespace teh
+
 /* Useful reference definitions and implementation */
-template <typename K, typename V> using bmap = bidirectional_map<K, V>;
+template <typename K, typename V>
+using bmap = teh::ds::bidirectional_map<K, V>;
 
 /**
  * \brief Try to add something to this bidirectional-map
@@ -169,11 +174,11 @@ template <typename K, typename V> typename bmap<K, V>::key_iterator_pair &&
 bmap<K, V>::insert(const typename bmap<K, V>::entry_type &entry)
 {
 	typename bmap<K, V>::key_iterator key_it = find(entry.first);
-	typename bmap<K, V>::value_iterator value_it = find(entry.second);
+	typename bmap<K, V>::value_iterator val_it = key_it.follow_link();
 	typename bmap<K, V>::key_iterator_pair p = std::make_pair(false, key_it);
-	typename bmap<K, V>::value_iterator_pair p = std::make_pair(false, value_it);
+	typename bmap<K, V>::value_iterator_pair p = std::make_pair(false, val_it);
 	/* Only permit non-duplicates */
-	if (key_it == key_end() && value_it == value_end()) {
+	if (key_it == key_end() && val_it == value_end()) {
 		// TODO implement fully
 		p.second = key_it;
 		p.first = true;
@@ -192,7 +197,7 @@ template <typename K, typename V> typename bmap<K, V>::size_type
 bmap<K, V>::erase(const typename bmap<K, V>::entry_type &entry)
 {
 	typename bmap<K, V>::key_iterator key_it = find(entry.first);
-	typename bmap<K, V>::value_iterator value_it = find(entry.second);
+	typename bmap<K, V>::value_iterator val_it = find(entry.second);
 	if (key_it == key_end() || value_it == value_end()) {
 		return 0;
 	}
@@ -200,9 +205,5 @@ bmap<K, V>::erase(const typename bmap<K, V>::entry_type &entry)
 	--element_count;
 	return 1;
 }
-
-} // namespace ds
-
-} // namespace teh
 
 #endif // BM_H
