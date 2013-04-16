@@ -10,9 +10,9 @@ SAY=$(shell which echo) -e "[$(TAG)]"
 all: iterator.o map.o hw8
 
 clean:
-	@$(SAY) "Cleaning object files and executables..."
-	@$(RM) *.o
-	@$(RM) hw8
+	@$(SAY) "Cleaning generated, object, and executable files..."
+	@$(RM) *.pch *.gch
+	@$(RM) *.o hw8
 
 changes:
 	@$(SAY) "Comparing current main.cpp with provided..."
