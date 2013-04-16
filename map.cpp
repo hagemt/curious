@@ -5,14 +5,16 @@
 
 #include "bidirectional_map.h"
 
-#define VALUE "zero"
-
 typedef bidirectional_map<int, std::string> MAP;
 
-int main(void) {
+int
+main(int argc, char *argv[])
+{
 	/* Place something in the map */
 	MAP m;
-	//m.insert(std::make_pair(0, VALUE));
+	for (int i = 1; i < argc; ++i) {
+		m.insert(std::make_pair(i, std::string(argv[i])));
+	}
 	/* Check that find works */
 	MAP::key_iterator it1, it2, itend = m.key_end();
 	it1 = m.find(0);
