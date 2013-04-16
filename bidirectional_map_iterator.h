@@ -145,14 +145,19 @@ class bidirectional_map_iterator : public iterator_base<Node<K, V>> {
 
 public:
 
-	/* Construction is straightforward using base */
-	explicit bidirectional_map_iterator(const TreeNode *tree, const TreeNode *n = nullptr) :
+	/* Construction is standard and straightforward */
+	explicit bidirectional_map_iterator
+		(const TreeNode *tree = nullptr, const TreeNode *n = nullptr) :
 		iterator_base<TreeNode>(n),
-		root(tree) { }
-	explicit bidirectional_map_iterator(const bidirectional_map_iterator<K, V> &it) :
+		root(tree) {
+	}
+	explicit bidirectional_map_iterator
+		(const bidirectional_map_iterator<K, V> &it) :
 		iterator_base<TreeNode>(it.ptr),
-		root(it.root) { }
-	explicit bidirectional_map_iterator(bidirectional_map_iterator &&it) :
+		root(it.root) {
+	}
+	explicit bidirectional_map_iterator
+		(bidirectional_map_iterator &&it) :
 		iterator_base<TreeNode>(it.ptr),
 		root(it.root) {
 		/* FIXME this is necessary, right? */

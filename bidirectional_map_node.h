@@ -98,6 +98,7 @@ public:
 		n.data = nullptr; n.link = nullptr;
 		n.left = n.right = n.parent = nullptr;
 	}
+
 	virtual ~Node() {
 		this->destroy();
 	}
