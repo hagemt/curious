@@ -27,14 +27,14 @@ private:
 	Node<V, K> *value_root;
 	size_type element_count;
 
-	/* Generic find function */
+	/* Generic find function, for utility */
 	template <typename A, typename B> bidirectional_map_iterator<A, B> &&
 	find(const A &element, const Node<A, B> *node) const {
-		if (!node || element == *(node->ptr)) {
-			return bidirectional_map_iterator<A, B>(node);
+		if (!node || element == *(node->data)) {
+			return std::move(bidirectional_map_iterator<A, B>(node));
 		}
-		/* FIXME use iteration instead? */
-		return (element < *(node->ptr))
+		/* FIXME use iteration instead? Does this tail-optimize? */
+		return (element < *(node->data))
 			? find(element, node->left)
 			: find(element, node->right);
 	}
