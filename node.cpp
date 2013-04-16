@@ -12,7 +12,7 @@ operator<<(std::ostream &ostr, const teh::ds::Node<A, B> &n) {
 	for (size_t i = 0; i < depth; ++i) {
 		ostr << '\t';
 	}
-	ostr << *(n.data) << "[" << *(n.link->data) << "]" << std::endl;
+	ostr << *n << "[" << *(n.link) << "]" << std::endl;
 	if (n.left) {
 		++depth;
 		ostr << *(n.left);

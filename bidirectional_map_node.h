@@ -92,7 +92,7 @@ public:
 	explicit Node(const Node<A, B> &n) { this->copy(n); }
 	/* Move takes data (just copies everything) */
 	explicit Node(Node<A, B> &&n) :
-		data(n.data), link(n.node),
+		data(n.data), link(n.link),
 		left(n.left), right(n.right), parent(n.parent) {
 		/* FIXME this is necessary, right? */
 		n.data = nullptr; n.link = nullptr;

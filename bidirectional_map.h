@@ -37,8 +37,8 @@ private:
 		}
 		/* FIXME use iteration instead? Does this tail-optimize? */
 		return (element < *(node->data))
-			? find(element, node->left)
-			: find(element, node->right);
+			? std::move(find(element, node->left))
+			: std::move(find(element, node->right));
 	}
 
 	template <typename A, typename B> void
@@ -55,9 +55,9 @@ private:
 	template <typename A, typename B> Node<A, B> *
 	copy(Node<A, B> *node) {
 		if (node == nullptr) { return nullptr; }
-		Node<A, B> *new_parent = new Node<A, B>(*n);
-		new_parent->left = deep_copy(n->left);
-		new_parent->left = deep_copy(n->right);
+		Node<A, B> *new_parent = new Node<A, B>(*node);
+		new_parent->left = copy(node->left);
+		new_parent->left = copy(node->right);
 	}
 
 public:
@@ -74,11 +74,11 @@ public:
 		key_root(m.key_root),
 		value_root(m.value_root),
 		element_count(m.element_count) {
-			/* FIXME we need this, right? */
-			m.key_root = nullptr;
-			m.value_root = nullptr;
-			m.element_count = 0;
-		}
+		/* FIXME we need this, right? */
+		m.key_root = nullptr;
+		m.value_root = nullptr;
+		m.element_count = 0;
+	}
 
 	virtual ~bidirectional_map() {
 		this->clear();
@@ -166,7 +166,7 @@ typedef bmap<K, V>::value_iterator_pair value_iterator_pair<K, V>;
  * \argument entry use std::make_pair(key, value) to prepare
  * \returns a pair, whether it was added and an iterator
  */
-template <typename K, typename V> iterator_pair<K, V> &&
+template <typename K, typename V> key_iterator_pair<K, V> &&
 bmap<K, V>::insert(const bmap<K, V>::entry_type &entry)
 {
 	key_iterator key_it = find(entry.first);
