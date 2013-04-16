@@ -108,15 +108,23 @@ public:
 		return *this;
 	}
 
-	/* Derefs just fetch the data */
+	/* Dereference just fetches the data */
 	const A &&operator*() const {
 		assert(data);
 		return std::move(*data);
 	}
 
-};
+	bool operator==(const Node<A, B> &n) {
+		assert(data && n.data);
+		return *data == *n.data;
+	}
 
-#include <iostream>
+	bool operator<(const Node<A, B> &n) {
+		assert(data && n.data);
+		return *data < *n.data;
+	}
+
+};
 
 template <typename A, typename B> std::ostream &
 operator<<(std::ostream &ostr, const Node<A, B> &n);
